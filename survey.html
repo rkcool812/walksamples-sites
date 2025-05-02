@@ -1,166 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Survey Portal - WalkSamples</title>
-
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-
-  <style>
-    :root {
-      --primary: #4CAF50;
-      --secondary: #333;
-      --light: #f8f9fa;
-    }
-
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      background-color: var(--light);
-      color: var(--secondary);
-    }
-
-    header {
-      background-color: white;
-      padding: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-
-    .logo {
-      height: 50px;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 40px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    button {
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      padding: 12px;
-      width: 48%;
-      margin-right: 4%;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-
-    button:last-child {
-      margin-right: 0;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    iframe {
-      width: 100%;
-      height: 1200px;
-      border: none;
-      margin-top: 20px;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 20px;
-      color: #666;
-      font-size: 14px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walk Samples - Customer Survey</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f8f9fa;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        iframe {
+            border: none;
+            width: 100%;
+            height: 1500px;
+        }
+        .header {
+            text-align: center;
+            padding: 30px 0;
+        }
+        .logo {
+            height: 50px;
+        }
+    </style>
 </head>
 <body>
-
-<header>
-  <img src="respondent_city_logo.jpeg" alt="WalkSamples Logo" class="logo">
-</header>
-
-<div class="container" id="auth-section">
-  <h2>Login or Sign Up</h2>
-  <input type="email" id="email" placeholder="Email" />
-  <input type="password" id="password" placeholder="Password" />
-  <div>
-    <button onclick="login()">Login</button>
-    <button onclick="signup()">Sign Up</button>
-  </div>
-  <p id="auth-status"></p>
-</div>
-
-<div class="container hidden" id="survey-section">
-  <h2>Welcome, <span id="user-email"></span>!</h2>
-  <p>Thank you for taking part in our surveys. You’ll earn 100 points per survey completed.</p>
-  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSejzhBscv4w790dNTZan3bw9vFnPyRzXykoqBOQ6TDnIZ-tHA/viewform?embedded=true"></iframe>
-</div>
-
-<div class="footer">
-  <p>© 2025 WalkSamples. All rights reserved. | Contact: <a href="mailto:rewards@walksamples.com">rewards@walksamples.com</a></p>
-</div>
-
-<script>
-  // Replace this config with your actual Firebase project config
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-  };
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-
-  function login() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    auth.signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        showSurvey(userCredential.user);
-      })
-      .catch((error) => {
-        document.getElementById("auth-status").textContent = error.message;
-      });
-  }
-
-  function signup() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    auth.createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        showSurvey(userCredential.user);
-      })
-      .catch((error) => {
-        document.getElementById("auth-status").textContent = error.message;
-      });
-  }
-
-  function showSurvey(user) {
-    document.getElementById("auth-section").classList.add("hidden");
-    document.getElementById("survey-section").classList.remove("hidden");
-    document.getElementById("user-email").textContent = user.email;
-  }
-
-  auth.onAuthStateChanged((user) => {
-    if (user) showSurvey(user);
-  });
-</script>
-
+    <div class="container">
+        <div class="header">
+            <img src="respondent_city_logo.jpeg" alt="Walk Samples Logo" class="logo">
+            <h1>Customer Feedback Survey</h1>
+            <p>Help us improve our services by completing this short survey</p>
+        </div>
+        
+        <!-- Your Google Form embed -->
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSejzhBscv4w790dNTZan3bw9vFnPyRzXykoqBOQ6TDnIZ-tHA/viewform?embedded=true"></iframe>
+    </div>
 </body>
 </html>
