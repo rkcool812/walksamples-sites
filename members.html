@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Member Area</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script>
+        // Same Firebase config as above
+        const firebaseConfig = { /* ... */ };
+        firebase.initializeApp(firebaseConfig);
+
+        firebase.auth().onAuthStateChanged(user => {
+            if (!user) {
+                window.location.href = "auth.html"; // Redirect if not logged in
+            } else {
+                document.getElementById('user-name').textContent = user.displayName || user.email;
+            }
+        });
+
+        function logout() {
+            firebase.auth().signOut().then(() => {
+                window.location.href = "auth.html";
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Welcome, <span id="user-name"></span>!</h1>
+    <p>This is your member-only area.</p>
+    <button onclick="logout()">Sign Out</button>
+</body>
+</html>
