@@ -1,32 +1,44 @@
+<!-- panel-signup.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Member Area</title>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-    <script>
-        // Same Firebase config as above
-        const firebaseConfig = { /* ... */ };
-        firebase.initializeApp(firebaseConfig);
-
-        firebase.auth().onAuthStateChanged(user => {
-            if (!user) {
-                window.location.href = "auth.html"; // Redirect if not logged in
-            } else {
-                document.getElementById('user-name').textContent = user.displayName || user.email;
-            }
-        });
-
-        function logout() {
-            firebase.auth().signOut().then(() => {
-                window.location.href = "auth.html";
-            });
-        }
-    </script>
+<meta charset="UTF-8">
+<title>Join Our Consumer Panel</title>
 </head>
 <body>
-    <h1>Welcome, <span id="user-name"></span>!</h1>
-    <p>This is your member-only area.</p>
-    <button onclick="logout()">Sign Out</button>
+<h1>Join Our Consumer Panel</h1>
+<form id="panelForm">
+<label>Name: <input type="text" name="name" required /></label><br />
+<label>Email: <input type="email" name="email" required /></label><br />
+<label>Age: <input type="number" name="age" min="18" max="70" required /></label><br />
+<label>Gender:
+<select name="gender" required>
+<option value="male">Male</option>
+<option value="female">Female</option>
+</select>
+</label><br />
+<label>Location: <input type="text" name="location" value="United States" readonly /></label><br />
+<button type="submit">Join</button>
+</form>
+ 
+  <script>
+    document.getElementById('panelForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+ 
+      const res = await fetch('http://localhost:3000/api/panel', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+ 
+      if (res.ok) {
+        alert("Thank you for joining!");
+      } else {
+        alert("There was an error.");
+      }
+    });
+</script>
 </body>
 </html>
